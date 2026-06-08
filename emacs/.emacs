@@ -10,16 +10,28 @@
       scroll-preserve-screen-position t
       auto-window-vscroll nil)
 
-;; https://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-(setq backup-directory-alist `(("~/.saves")))
-(setq backup-by-copying t)
-(setq delete-old-versions t
-  kept-new-versions 6
-  kept-old-versions 2
-  version-control t)
+(let ((backup-dir (expand-file-name "~/.saves/backups/"))
+      (auto-save-dir (expand-file-name "~/.saves/auto-save/")))
+  (make-directory backup-dir t)
+  (make-directory auto-save-dir t)
 
-;; https://amitp.blogspot.com/2007/03/emacs-move-autosave-and-backup-files.html
-(setq auto-save-directory "~/.saves")
+  ;; Backups: file.cpp~
+  (setq backup-directory-alist
+        `(("." . ,backup-dir)))
+
+  ;; Auto-saves: #file.cpp#
+  (setq auto-save-file-name-transforms
+        `((".*" ,auto-save-dir t)))
+
+  ;; Auto-save session metadata
+  (setq auto-save-list-file-prefix
+        (expand-file-name ".saves-" auto-save-dir)))
+
+(setq backup-by-copying t)
+(setq delete-old-versions t)
+(setq kept-new-versions 6)
+(setq kept-old-versions 2)
+(setq version-control t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -249,3 +261,5 @@ This command does not push text to `kill-ring'."
 (global-set-key (kbd "M-d") 'my-delete-word)
 (global-set-key (kbd "<M-backspace>") 'my-backward-delete-word)
 
+;; Start maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
