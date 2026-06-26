@@ -1,5 +1,5 @@
 (delete-selection-mode 1)
-(electric-pair-mode 1)
+(electric-pair-mode 0)
 (global-auto-revert-mode t)
 
 ;; https://www.reddit.com/r/emacs/comments/fwmqc8/how_to_stop_emacs_from_half_scrolling_from_bottom/
@@ -40,20 +40,30 @@
  ;; If there is more than one, they won't work right.
  '(amx-mode t)
  '(custom-safe-themes
-   '("f1b2de4bc88d1120782b0417fe97f97cc9ac7c5798282087d4d1d9290e3193bb"
+   '("3e335d794ed3030fefd0dbd7ff2d3555e29481fe4bbb0106ea11c660d6001767"
+     "0dd2666921bd4c651c7f8a724b3416e95228a13fca1aa27dc0022f4e023bf197"
+     "09b833239444ac3230f591e35e3c28a4d78f1556b107bafe0eb32b5977204d93"
+     "f1b2de4bc88d1120782b0417fe97f97cc9ac7c5798282087d4d1d9290e3193bb"
      "2f9cff368c07d280a7a766e9f04a0053a17bb74f775504dc49421d1fda2a0797"
      "01a9797244146bbae39b18ef37e6f2ca5bebded90d9fe3a2f342a9e863aaa4fd"
      default))
  '(ispell-dictionary nil)
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(ag ample-theme amx anti-zenburn-theme apropospriate-theme cmake-mode
+	corfu fzf gruber-darker-theme ido-completing-read+ ivy
+	magit-annex markdown-mode minimal-theme move-text
+	multiple-cursors one-themes projectile spacegray-theme
+	taxy-magit-section timu-line timu-spacegrey-theme
+	twilight-bright-theme typescript-mode vertico zeal-at-point
+	zenburn-theme)))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; force to use horizontal split (https://www.emacswiki.org/emacs/HorizontalSplitting)
  (setq split-width-threshold 9999)
 
-(add-to-list 'default-frame-alist '(font . "Iosevka-12" ))
-(set-face-attribute 'default t :font "Iosevka-12")
+(add-to-list 'default-frame-alist '(font . "Iosevka-18" ))
+(set-face-attribute 'default t :font "Iosevka-18")
 
 
 ;; make comments italic
@@ -263,3 +273,15 @@ This command does not push text to `kill-ring'."
 
 ;; Start maximized
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(use-package fzf
+  :bind (("C-c f" . fzf)
+         ("C-c g" . fzf-grep)
+         ("C-c p" . fzf-git-files))
+  :config
+  (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+        fzf/executable "fzf"
+        fzf/git-grep-args "-i --line-number %s"
+        fzf/grep-command "grep -nrH"
+        fzf/position-bottom t
+        fzf/window-height 15))
